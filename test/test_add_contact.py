@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from selenium.webdriver.firefox.webdriver import WebDriver
-from contact import Contact
 import unittest
+
+from selenium.webdriver.firefox.webdriver import WebDriver
+
+from model.contact import Contact
 
 
 class test_add_contact(unittest.TestCase):
