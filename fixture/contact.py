@@ -16,11 +16,12 @@ class ContactHelper:
         wd = self.app.wd
         self.new_contact_page()
         # add new contact
-        self.fill_contact_form(contact, wd)
+        self.fill_contact_form(contact)
         self.return_to_add_new_contact_page()
         wd.find_element_by_link_text("home page").click()
 
-    def fill_contact_form(self, contact, wd):
+    def fill_contact_form(self, contact):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -100,10 +101,11 @@ class ContactHelper:
 
     def modify_first(self,contact):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        if not wd.current_url.endswith("/addressbook/"):
+            wd.find_element_by_link_text("home").click()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
-        self.fill_contact_form(contact, wd)
+        self.fill_contact_form(contact)
         wd.find_element_by_name("update").click()
         wd.find_element_by_link_text("home page").click()
 
