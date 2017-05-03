@@ -100,7 +100,7 @@ class ContactHelper:
 
     def modify_first(self,contact):
         wd = self.app.wd
-        #wd.find_element_by_link_text("home").click()
+        wd.find_element_by_link_text("home").click()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.fill_contact_form(contact, wd)
@@ -111,3 +111,9 @@ class ContactHelper:
         wd = self.app.wd
         # new contact page
         wd.find_element_by_link_text("add new").click()
+
+
+    def count(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+        return len(wd.find_elements_by_name("selected[]"))
