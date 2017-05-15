@@ -1,4 +1,4 @@
-
+from model.contact import Contact
 
 class ContactHelper:
 
@@ -99,10 +99,14 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         #self.return_to_add_new_contact_page()
 
-    def modify_first(self,contact):
+    def modify_first(self, contact):
         wd = self.app.wd
         if not wd.current_url.endswith("/addressbook/"):
             wd.find_element_by_link_text("home").click()
+        if self.count() == 0:
+            contact.create(Contact("John", "Mark", "Smith", "Mike", "Dr", "adada", "Street", "500055555", "666666666",
+                        "777777777", "11111111111", "sadadas@sadaa.com", "sadadas2@sadaa.com",
+                      "sadadas3@sadaa.com", "www.home.pl", "1999", "2000", "Street2", "Home", "Bye"))
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.fill_contact_form(contact)
@@ -111,7 +115,6 @@ class ContactHelper:
 
     def new_contact_page(self):
         wd = self.app.wd
-        # new contact page
         wd.find_element_by_link_text("add new").click()
 
 
@@ -119,3 +122,16 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        if not wd.current_url.endswith("/addressbook/"):
+            wd.find_element_by_link_text("home").click()
+        contact = []
+        for element in wd.find_elements_by_name("entry"):
+            id_contact = element.find_element_by_name("selected[]").get_attribute("value")
+            surname = element.find_element_by_xpath(".//td[2]").text
+            first_name = element.find_element_by_xpath(".//td[3]").text
+            contact.append(Contact(firstname=first_name, lastname=surname, id_contact=id_contact))
+        return contact
+
